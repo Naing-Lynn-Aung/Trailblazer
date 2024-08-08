@@ -1,0 +1,10 @@
+.card.bg-light.my-3.col-8.mx-auto
+  .card-header.py-2
+    h5.mb-0 #{ @model.title.upcase } #{ @model.privacy == false ?'<i class="fa-sharp fa-solid fa-lock" style="font-size: 13px;"></i>'.html_safe : '<i class="fa-sharp fa-solid fa-earth-asia" style="font-size: 13px;"></i>'.html_safe }
+    span style="font-size:12px;" Last updated on : #{ @model.created_at.strftime("%Y/%m/%d %I:%M:%S %p") }
+  .card-body
+    p.card-text.mx-3 #{ @model.description }
+  - if can_edit(@model)
+    .d-flex.justify-content-between.mb-3
+      = link_to 'Back', posts_path, class: 'btn btn-sm btn-dark'
+      = link_to 'Edit', edit_post_path(@model), class: 'btn btn-sm btn-secondary'

@@ -1,0 +1,28 @@
+.col-8.mx-auto.mt-5
+  .d-flex.justify-content-between.mb-3
+    = form_tag(search_posts_path, :method => "get") do
+      = text_field_tag :search_keyword, params[:search_keyword], :placeholder => 'Search ...', class: 'form-control'
+    = form_with url: filter_posts_path, method: :get do |form|
+      = form.select :filter, options_for_select(['All', 'Other Posts', 'My Posts'], @last_filter ? @last_filter : ''), {}, {:class => "form-control", onchange: 'this.form.submit()' }
+    .btn-group.dropright
+      button.btn.btn-primary.dropdown-toggle data-toggle="dropdown" aria-expanded="false"
+        'New Post
+      .dropdown-menu
+        = link_to 'Create Post', new_post_path, class: 'dropdown-item'
+        = link_to 'Import CSV', import_posts_path, class: 'dropdown-item'
+        = link_to 'Download CSV', export_posts_path(search: params[:search_keyword], format: :csv), class: 'dropdown-item'
+        = link_to 'Download CSV Format', csv_format_posts_path(format: :csv), class: 'dropdown-item'
+
+  - @model.each do |post|
+    - if current_user.id == post.user_id || current_user.user_type == 'Admin' || post.privacy == true
+      .card.bg-light.mb-3
+        .card-header.py-2
+          h5.mb-0 #{ post.title.upcase } #{ post.privacy == false ?'<i class="fa-sharp fa-solid fa-lock" style="font-size: 13px;"></i>'.html_safe : '<i class="fa-sharp fa-solid fa-earth-asia" style="font-size: 13px;"></i>'.html_safe }
+          span style="font-size:12px;" Last updated on : #{ post.created_at.strftime("%Y/%m/%d %I:%M:%S %p") }
+          p style="font-size:12px;" Created By : #{ post.user.email }
+        .card-body
+          p.card-text.mx-3 #{ post.description.truncate(200) }
+          .d-flex.justify-content-end.mb-3
+            = link_to 'Show Detail', post, class: 'btn btn-sm btn-success'
+            - if can_edit(post)
+              = button_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure to delete' }, class: 'btn btn-sm btn-danger mx-3' 

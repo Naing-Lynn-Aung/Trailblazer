@@ -1,0 +1,8 @@
+- if flash[:alert]
+  .alert.alert-danger.alert-dismissible.fade.show role="alert"
+    = flash[:alert]
+    button.close type="button" data-dismiss="alert" aria-label="Close"
+      span aria-hidden="true" = "&times".html_safe
+.col-5.m-auto
+  h2.form-title Edit User
+  = render 'form', user: @form,  back: user_path

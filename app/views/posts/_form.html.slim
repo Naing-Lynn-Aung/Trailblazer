@@ -1,0 +1,24 @@
+= form_with model: post, local: true do |form|
+  .form-group
+    = form.label :title, class: 'required'
+    = form.text_field :title, class: 'form-control'
+    - if post.errors[:title].any?
+      .alert.alert-danger #{ post.errors.full_messages_for(:title)[0] }
+  .form-group
+    = form.label :description, class: 'required'
+    = form.text_area :description, class: 'form-control', rows: 8
+    - if post.errors[:description].any?
+      .alert.alert-danger #{ post.errors.full_messages_for(:description)[0] }
+  .form-group
+    label.required.d-block Privacy Setting
+    .d-flex
+      = form.radio_button :privacy, true  
+      = form.label :privacy, 'Public', :value => 'true'
+    .d-flex
+      = form.radio_button :privacy, false
+      = form.label :privacy, 'Private', :value => 'false'
+    - if post.errors[:privacy].any?
+      .alert.alert-danger #{ post.errors.full_messages_for(:privacy)[0] }
+  .d-flex.justify-content-between.mb-3
+    = link_to 'Back', back, class:'btn btn-dark'
+    = form.submit 'Confirm', class:'btn btn-primary'

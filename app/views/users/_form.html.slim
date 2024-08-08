@@ -1,0 +1,53 @@
+= form_with model: user, multipart: true, local: true do |form|
+  .form-group
+    = form.label :name, 'User Name', class:'required'
+    = form.text_field :name, class:'form-control'
+    - if user.errors[:name].any?
+        .alert.alert-danger #{ user.errors.full_messages_for(:name)[0] }
+  .form-group
+    = form.label :email, class:'required'
+    = form.text_field :email, class:'form-control'
+    - if user.errors[:email].any?
+        .alert.alert-danger #{ user.errors.full_messages_for(:email)[0] }
+  - if user.id == nil
+    .form-group
+      = form.label :password, class:'required'
+      = form.password_field :password, class:'form-control'
+      - if user.errors[:password].any?
+          .alert.alert-danger #{ user.errors.full_messages_for(:password)[0] }
+    .form-group
+      = form.label :password_confirmation, class:'required'
+      = form.password_field :password_confirmation, class:'form-control'
+      - if user.errors[:password_confirmation].any?
+          .alert.alert-danger #{ user.errors.full_messages_for(:password_confirmation)[0] }
+  .form-group
+    = form.label :phone
+    = form.text_field :phone, class:'form-control'
+    - if user.errors[:phone].any?
+      .alert.alert-danger #{ user.errors.full_messages_for(:phone)[0] }
+  .form-group
+    = form.label :address
+    = form.text_area :address, class:'form-control'
+    - if user.errors[:address].any?
+      .alert.alert-danger #{ user.errors.full_messages_for(:address)[0] }
+  .form-group
+    = form.label :dob, 'Birthday'
+    = form.date_field :dob, class:'form-control', value: user.dob
+  - if current_user && current_user.user_type == 'Admin'
+    .form-group
+      = form.label :user_type
+      = form.select :user_type, ['User', 'Admin'], {}, { class: 'form-control' }
+  - else
+    .form-group hidden=('hidden')
+      = form.label :user_type
+      = form.hidden_field :user_type, class: 'form-control', value: 'User'
+  .form-group
+    = form.label :profile, class: 'd-block'
+    = form.file_field :image, accept: 'image/png,image/jpeg', class: 'form-control', id: 'profile'
+    - if user.errors[:image].any?
+      .alert.alert-danger #{ user.errors.full_messages_for(:image)[0] }
+  .d-flex.justify-content-between.mb-3
+    = link_to 'Back', back, class:'btn btn-dark'
+    = form.submit 'Confirm', class:'btn btn-primary'
+
+= javascript_pack_tag 'user/_form'

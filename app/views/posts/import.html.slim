@@ -1,0 +1,13 @@
+- if flash[:alert]
+  .alert.alert-danger.alert-dismissible.fade.show role="alert"
+    = flash[:alert]
+    button.close type="button" data-dismiss="alert" aria-label="Close"
+      span aria-hidden="true" = "&times".html_safe
+.col-5.mx-auto.my-3
+  h3.form-title.mb-4 Import CSV
+  = form_with url: import_posts_path, multipart: true, local: true do |form|
+    .form-group
+      = form.file_field :file, class: 'form-control', accept: 'text/csv'
+    .d-flex.justify-content-between.mb-3
+      = link_to 'Back', posts_path, class: 'btn btn-dark'
+      = form.submit 'Import', class: 'btn btn-primary'  

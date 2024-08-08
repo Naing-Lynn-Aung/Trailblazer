@@ -1,0 +1,22 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  .container-fluid
+    = link_to 'BulletinBoard', posts_path, class:'navbar-brand'
+    .collapse.navbar-collapse.justify-content-between#navbarNav
+      ul.navbar-nav
+        - if logged_in? && current_user.user_type == 'Admin'
+          li.nav-item
+            = link_to 'User List', users_path, class: 'nav-link'
+        - if logged_in?
+          li.nav-item
+            = link_to 'Post List', posts_path, class: 'nav-link'
+      ul.navbar-nav.justify-content-end
+        - if logged_in?
+          li.nav-item
+            = link_to current_user.email, profile_users_path, class: 'nav-link'
+          li.nav-item
+            = button_to 'Logout', logout_path, method: :delete, class: 'btn btn-sm btn-outline-danger mt-1'
+        - else
+          li.nav-item
+            = link_to 'Login', root_path, class: 'nav-link'
+          li.nav-item
+            = link_to 'Sign Up', new_user_path, class: 'nav-link'

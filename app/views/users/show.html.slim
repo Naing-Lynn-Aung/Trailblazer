@@ -1,0 +1,34 @@
+.container.col-5.m-auto
+  .col
+    h2.form-title.font-weight-normal.text-muted.my-3 User Detail
+  .col
+    .d-flex.justify-content-center.mb-2
+      - if @model.image.attached?
+        = image_tag @model.image, class: 'rounded-circle', style: 'width:100px;height:100px'
+  .col
+    p.form-control
+      strong User Name : 
+      = @model.name
+  .col
+    p.form-control
+      strong Email : 
+      = @model.email
+  .col
+    p.form-control
+      strong Phone : 
+      = @model.phone
+  .col
+    p.form-control
+      strong Address : 
+      = @model.address
+  .col
+    p.form-control
+      strong Birthday : 
+      = @model.dob
+  .col
+    p.form-control
+      strong User Type : 
+      = @model.user_type
+  .col.d-flex.justify-content-between
+    = link_to 'Back', users_path, class: 'btn btn-dark'
+    = link_to 'Edit User', edit_user_path(@model), class: 'btn btn-secondary mr-2'
